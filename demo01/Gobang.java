@@ -1,3 +1,9 @@
+/**
+*@author comphca
+*/
+
+import java.util.Scanner;
+
 public class Gobang
 {
 	//棋盘的二维数组
@@ -44,11 +50,43 @@ public class Gobang
 	}
 
 
+
+
+
 	//测试
 	public static void main(String[] args) 
 	{
-		Gobang.init();
-		Gobang.print();
+			Scanner in = new Scanner(System.in);
+
+			String[] who = {"黑方","白方"};
+			String[] whochess = {"@","#"};
+
+			int count = 0;
+
+			init();
+
+			while(true)
+			{
+				print();
+				System.out.println("请" + who[count % 2] + "落子：ps(坐标中间以空格分开)");
+				//输入棋盘坐标 完成落子
+				String x = in.next();
+				String y = in.next();
+
+				//将用户输入的坐标16进制 转为 10进制，定位棋盘的位置
+				int xValue = Integer.valueOf(x,16);
+				int yValue = Integer.valueOf(y,16);
+
+				if("*".equals(chesses[xValue][yValue]))
+				{
+					chesses[xValue][yValue] = whochess[count % 2];
+					count ++;//写到这个循环里面，控制落子对象
+				}
+				else {
+					System.out.println("此处已有人落子，请重新输入！！");
+				}
+				
+			}
 	}
 }
 
