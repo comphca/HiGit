@@ -1,6 +1,4 @@
-/**
-*@author comphca
-*/
+
 
 import java.util.Scanner;
 
