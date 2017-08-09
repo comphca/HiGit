@@ -51,6 +51,141 @@ public class Gobang
 
 
 
+	public static boolean check(int xValue, int yValue)
+	{
+		return vertical(xValue,yValue) >= 5 || horizontal(xValue,yValue) >=5 || diagonalX(xValue,yValue) >= 5 || diagonalY(xValue,yValue) >= 5;
+	}
+
+	public static int vertical(int xValue, int yValue)
+	{
+		String chess = chesses[xValue][yValue];
+		int count = 1;
+
+
+		//上
+		int Xtemp = xValue - 1;
+		int Ytemp = yValue;
+
+		while (Xtemp >= 0 && chess.equals(chesses[Xtemp][Ytemp])) 
+		{
+			count++;
+			Xtemp--;	
+		}
+
+
+		//下
+		int tempX = xValue + 1;
+		int tempY = yValue;
+		while (tempX <= 16 && chess.equals(chesses[tempX][tempY])) 
+		{
+			count++;
+			tempX++;	
+		}
+
+
+		return count;
+	}
+
+
+	public static int horizontal(int xValue, int yValue)
+	{
+		String chess = chesses[xValue][yValue];
+		int count = 1;
+
+
+		//左
+		int Xtemp = xValue;
+		int Ytemp = yValue - 1;
+
+		while (Ytemp >= 0 && chess.equals(chesses[Xtemp][Ytemp])) 
+		{
+			count++;
+			Ytemp--;	
+		}
+
+
+		//右
+		int tempX = xValue;
+		int tempY = yValue + 1;
+		while (tempY <= 16 && chess.equals(chesses[tempX][tempY])) 
+		{
+			count++;
+			tempY++;	
+		}
+
+
+		return count;
+	}
+
+
+
+	public static int diagonalX(int xValue, int yValue)
+	{
+		String chess = chesses[xValue][yValue];
+		int count = 1;
+
+
+		//左上
+		int Xtemp = xValue - 1;
+		int Ytemp = yValue - 1;
+
+		while (Xtemp >= 0 && Ytemp>=0 && chess.equals(chesses[Xtemp][Ytemp])) 
+		{
+			count++;
+			Xtemp--;
+			Ytemp--;	
+		}
+
+
+		//右下
+		int tempX = xValue + 1;
+		int tempY = yValue + 1;
+		while (tempX <= 16 && tempY <=16 && chess.equals(chesses[tempX][tempY])) 
+		{
+			count++;
+			tempX++;
+			tempY++;	
+		}
+
+
+		return count;
+	}
+
+
+
+	public static int diagonalY(int xValue, int yValue)
+	{
+		String chess = chesses[xValue][yValue];
+		int count = 1;
+
+
+		//右上
+		int Xtemp = xValue - 1;
+		int Ytemp = yValue + 1;
+
+		while (Xtemp >= 0 && Ytemp <=16 && chess.equals(chesses[Xtemp][Ytemp])) 
+		{
+			count++;
+			Xtemp--;
+			Ytemp++;	
+		}
+
+
+		//左下
+		int tempX = xValue + 1;
+		int tempY = yValue - 1;
+		while (tempX <= 16 && tempY >= 0 && chess.equals(chesses[tempX][tempY])) 
+		{
+			count++;
+			tempX++;
+			tempY--;	
+		}
+
+
+		return count;
+	}
+
+
 
 
 	//测试
@@ -61,14 +196,14 @@ public class Gobang
 			String[] who = {"黑方","白方"};
 			String[] whochess = {"@","#"};
 
-			int count = 0;
+			int whoCount = 0;
 
 			init();
 
 			while(true)
 			{
 				print();
-				System.out.println("请" + who[count % 2] + "落子：ps(坐标中间以空格分开)");
+				System.out.println("请" + who[whoCount % 2] + "落子：ps(坐标中间以空格分开)");
 				//输入棋盘坐标 完成落子
 				String x = in.next();
 				String y = in.next();
@@ -79,8 +214,18 @@ public class Gobang
 
 				if("*".equals(chesses[xValue][yValue]))
 				{
-					chesses[xValue][yValue] = whochess[count % 2];
-					count ++;//写到这个循环里面，控制落子对象
+					chesses[xValue][yValue] = whochess[whoCount % 2];
+
+
+					//落完子判断输赢
+					if(check(xValue,yValue))
+					{
+						print();
+						System.out.println(who[whoCount % 2] + "胜，游戏结束！");
+						break;
+					}
+
+					whoCount ++;//写到这个循环里面，控制落子对象
 				}
 				else {
 					System.out.println("此处已有人落子，请重新输入！！");
