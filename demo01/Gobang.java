@@ -1,4 +1,6 @@
-
+/**
+*@author Lijun Gu
+*/
 
 import java.util.Scanner;
 
